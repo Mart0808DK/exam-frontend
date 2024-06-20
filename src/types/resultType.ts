@@ -4,14 +4,16 @@ import type {ParticipantType} from "./participantType.ts";
 type ResultType = {
     id: number;
     resultType: string;
-    resultValue: number;
+    resultValue: string;
+    date: Date;
     discipline: DisciplineType;
     participant: ParticipantType;
 }
 
 type ResultPostType = {
     resultType: string;
-    resultValue: number;
+    resultValue: string;
+    date: Date;
     discipline: { name: string};
     participant: { name: string};
 }

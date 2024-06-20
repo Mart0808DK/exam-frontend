@@ -9,7 +9,6 @@ import type {ResultType} from "../types/resultType.ts";
 import CustomModal from "../components/CustomModal.tsx";
 import ResultsForm from "../components/ResultsForm.tsx";
 
-
 function Results() {
     const {results, createResult, updateResult, deleteResult, isLoading} = UseResults();
     const {showSnackBarSuccess, showSnackBarError} = useSnackBar();
@@ -28,7 +27,8 @@ function Results() {
             setEditResult({
                 id: 0,
                 resultType: "",
-                resultValue: 0,
+                resultValue: "",
+                date: new Date(),
                 discipline: {
                     id: 0,
                     name: "",
@@ -67,10 +67,26 @@ function Results() {
                 <span>{params.value?.name}</span>
             )},
         {field: 'resultType', headerName: 'Type', width: 200},
-        {field: 'resultValue', headerName: 'Resultat', width: 200},
-        {field: 'discipline', headerName: 'Disciplin', width: 600, renderCell: (params: GridRenderCellParams) => {
+        {
+            field: 'resultValue',
+            headerName: 'Resultat',
+            width: 200,
+            renderCell: (params: GridRenderCellParams) => {
+                let formattedValue = params.row.resultValue;
+                if (params.row.resultType === "Time") {
+                    formattedValue += " min sek mm";
+                } else if (params.row.resultType === "Distance") {
+                    formattedValue += " meter";
+                } else if (params.row.resultType === "Points") {
+                    formattedValue += " ps";
+                }
+                return <span>{formattedValue}</span>;
+            }
+        },
+        {field: 'discipline', headerName: 'Disciplin', width: 200, renderCell: (params: GridRenderCellParams) => {
                 return <span>{params.value?.name}</span>
             }},
+        {field: 'date', headerName: 'Dato', width: 200},
         { field: 'rediger', headerName: 'Rediger', width: 150, renderCell: (params: GridRenderCellParams) => (
                 <Button variant={"contained"} onClick={() => openModal(params.row)}>Rediger</Button>
             ),
