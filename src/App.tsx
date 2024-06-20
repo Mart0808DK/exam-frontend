@@ -5,6 +5,7 @@ import Participants from "./container/Participants.tsx";
 import Navbar from "./components/Navbar.tsx";
 import {SnackbarProvider} from "notistack";
 import Results from "./container/Results.tsx";
+import Disciplines from "./container/Disciplines.tsx";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/deltager" element={<Participants/>}/>
                     <Route path="/resultater" element={<Results/>}/>
+                    <Route path="/discipliner" element={<Disciplines/>}/>
                     <Route path="/*" element={<FallBack/>}/>
                 </Routes>
             </SnackbarProvider>

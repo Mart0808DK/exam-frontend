@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import type {ParticipantPostType, ParticipantType} from "../types/participantType.ts";
 import {Button, FormControl, MenuItem, Select, type SelectChangeEvent, TextField} from "@mui/material";
 import useSnackBar from "../hooks/useSnackBar.ts";
-import useDisciplines from "../hooks/useDisciplines.tsx";
+import useDisciplines from "../hooks/useDisciplines.ts";
 
-type Entity1FormProps = {
+type ParticipantsFormProps = {
     closeModal: () => void;
     createParticipant: (entity1: ParticipantPostType) => void;
     putParticipant: (entity1: ParticipantType) => void;
@@ -12,7 +12,7 @@ type Entity1FormProps = {
 
 }
 
-function ParticipantForm({closeModal, createParticipant, putParticipant, editParticipant}: Entity1FormProps) {
+function ParticipantForm({closeModal, createParticipant, putParticipant, editParticipant}: ParticipantsFormProps) {
     const [form, setForm] = useState<ParticipantType>({
         id: 0,
         name: "",
@@ -89,7 +89,6 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
                 resultType: 'Time' // This is a placeholder. Update with the actual value.
             })) : []
         };
-        console.log(participantDetails)
         if (participantDetails.id) {
             await handleUpdate(participantDetails);
         } else {

@@ -1,4 +1,4 @@
-import UseResults from "../hooks/useResults.tsx";
+import UseResults from "../hooks/useResults.ts";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import {DataGrid, type GridRenderCellParams} from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
@@ -8,6 +8,7 @@ import {useState} from "react";
 import type {ResultType} from "../types/resultType.ts";
 import CustomModal from "../components/CustomModal.tsx";
 import ResultsForm from "../components/ResultsForm.tsx";
+import {translateResultType} from "../utils/Dictionary.ts";
 
 function Results() {
     const {results, createResult, updateResult, deleteResult, isLoading} = UseResults();
@@ -32,7 +33,7 @@ function Results() {
                 discipline: {
                     id: 0,
                     name: "",
-                    result_type: "",
+                    resultType: "",
                 },
                 participant: {
                     id: 0,
@@ -66,7 +67,7 @@ function Results() {
         {field: 'participant', headerName: 'Deltager', width: 200, renderCell: (params: GridRenderCellParams) => (
                 <span>{params.value?.name}</span>
             )},
-        {field: 'resultType', headerName: 'Type', width: 200},
+        {field: "resultType", headerName: "Resultat type", width: 200, renderCell: (params: GridRenderCellParams) => translateResultType(params.value)},
         {
             field: 'resultValue',
             headerName: 'Resultat',

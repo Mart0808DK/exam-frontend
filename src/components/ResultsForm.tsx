@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import useSnackBar from "../hooks/useSnackBar.ts";
 import type {ResultPostType, ResultType} from "../types/resultType.ts";
 import {FormControl, Grid, InputLabel, MenuItem, Select, type SelectChangeEvent, TextField} from "@mui/material";
-import useDisciplines from "../hooks/useDisciplines.tsx";
+import useDisciplines from "../hooks/useDisciplines.ts";
 import useParticipants from "../hooks/useParticipants.ts";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -24,7 +24,7 @@ function ResultsForm({onClose, createResult, updateResult, editResult, results}:
         discipline: {
             id: 0,
             name: "",
-            result_type: "",
+            resultType: "",
         },
         participant: {
             id: 0,

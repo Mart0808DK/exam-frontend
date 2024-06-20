@@ -11,6 +11,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import PortraitIcon from '@mui/icons-material/Portrait';
 import { useNavigate } from "react-router-dom";
 import {blue} from "@mui/material/colors";
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 /**
  * Navbar component.
@@ -68,13 +70,21 @@ export default function Navbar() {
                             component={Link}
                             to="/deltager"
                         >
-                            <PortraitIcon/>
+                            <DirectionsRunIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="resultater">
                         <IconButton
                             component={Link}
                             to="/resultater"
+                        >
+                            <EmojiEventsIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="discipliner">
+                        <IconButton
+                            component={Link}
+                            to="/discipliner"
                         >
                             <PortraitIcon/>
                         </IconButton>

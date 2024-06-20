@@ -1,7 +1,12 @@
 type DisciplineType = {
     id: number;
     name: string;
-    result_type: string;
+    resultType: string;
 }
 
-export type { DisciplineType };
+type DisciplinePostType = {
+    name: string;
+    resultType: string;
+}
+
+export type { DisciplineType, DisciplinePostType };
