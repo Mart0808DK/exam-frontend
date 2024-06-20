@@ -1,18 +1,18 @@
-import useEntity1 from "../hooks/useEntity1.ts";
+import useParticipants from "../hooks/useParticipants.ts";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import {DataGrid, type GridRenderCellParams} from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import {useState} from "react";
-import type {Entity1Type} from "../types/entity1Type.ts";
+import type {ParticipantPostType, ParticipantType} from "../types/participantType.ts";
 import CustomModal from "../components/CustomModal.tsx";
-import Entity1Form from "../components/Entity1Form.tsx";
+import ParticipantForm from "../components/ParticipantForm.tsx";
 import {Paper} from "@mui/material";
 import useSnackBar from "../hooks/useSnackBar.ts";
 
-function Entity() {
-    const {entity1, createEntity1, putEntity1, deleteEntity1, isLoading } = useEntity1();
+function Participants() {
+    const {participants, createParticipant, putParticipant, deleteParticipant, isLoading} = useParticipants();
     const [isOpen, setIsOpen] = useState(false);
-    const [editEntity1, setEditEntity1] = useState<Entity1Type | null>(null);
+    const [editParticipant, setEditParticipant] = useState<ParticipantType | ParticipantPostType | null>(null);
     const {showSnackBarSuccess, showSnackBarError} = useSnackBar();
 
 
@@ -20,15 +20,22 @@ function Entity() {
         return <LoadingSpinner />;
     }
 
-    const openModal = (entity1?: Entity1Type) => {
+    const openModal = (entity1?: ParticipantType) => {
         if (entity1) {
-            setEditEntity1(entity1);
+            setEditParticipant(entity1);
         } else {
-            setEditEntity1({
+            setEditParticipant({
                 id: 0,
                 name: "",
-                email: "",
-                age: 0
+                gender: "",
+                age: 0,
+                club: {
+                    id: 0,
+                    name: "",
+                    ranking: 0,
+                    area: ""
+                },
+                discipline: []
             });
         }
         setIsOpen(true);
@@ -40,7 +47,7 @@ function Entity() {
 
     const handleDelete = async (id: number) => {
         try {
-            await deleteEntity1(id);
+            await deleteParticipant(id);
             showSnackBarSuccess("Entity1 er slettet");
         } catch (e: unknown) {
             showSnackBarError("Der skete en fejl under sletning af Entity1")
@@ -51,8 +58,14 @@ function Entity() {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Navn', width: 200 },
-        { field: 'email', headerName: 'Email', width: 200 },
         { field: 'age', headerName: 'Alder', width: 130 },
+        { field: 'gender', headerName: 'Køn', width: 130 },
+        { field: 'club', headerName: 'Klub', width: 130, renderCell: (params: GridRenderCellParams) => (
+                <span>{params.row.club.name}</span>
+            )},
+        { field: 'discipline', headerName: 'Disciplin', width: 400, renderCell: (params: GridRenderCellParams) => (
+                <span>{params.row.discipline.map(discipline => discipline.name).join(", ")}</span>
+            )},
         { field: 'rediger', headerName: 'Rediger', width: 150, renderCell: (params: GridRenderCellParams) => (
                 <Button variant={"contained"} onClick={() => openModal(params.row)}>Rediger</Button>
             ),
@@ -69,18 +82,18 @@ function Entity() {
                        margin: 2,
                        borderRadius: 2,
                    }}>
-                <h1>Entity1</h1>
+                <h1>Deltager</h1>
                 <div>
-                    <DataGrid columns={columns} rows={entity1}/>
+                    <DataGrid columns={columns} rows={participants}/>
                 </div>
                 <Button variant={"contained"} onClick={() => openModal()}>Opret</Button>
                 <CustomModal isOpen={isOpen} onRequestClose={closeModal}>
-                    <Entity1Form editEntity1={editEntity1} createEntity1={createEntity1} updateEntity1={putEntity1}
-                                 closeModal={closeModal}/>
+                    <ParticipantForm createParticipant={createParticipant} putParticipant={putParticipant}
+                                     closeModal={closeModal} editParticipant={editParticipant}/>
                 </CustomModal>
             </Paper>
         </>
     );
 }
 
-export default Entity;
+export default Participants;

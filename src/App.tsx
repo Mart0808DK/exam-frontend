@@ -1,7 +1,7 @@
 import {Route, Routes} from "react-router-dom";
 import Home from "./container/Home.tsx";
 import FallBack from "./container/FallBack.tsx";
-import Entity from "./container/Entity.tsx";
+import Participants from "./container/Participants.tsx";
 import Navbar from "./components/Navbar.tsx";
 import {SnackbarProvider} from "notistack";
 
@@ -18,7 +18,7 @@ function App() {
                 <Navbar/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/entity" element={<Entity/>}/>
+                    <Route path="/entity" element={<Participants/>}/>
                     <Route path="/*" element={<FallBack/>}/>
                 </Routes>
             </SnackbarProvider>
