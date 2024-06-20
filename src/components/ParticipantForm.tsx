@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import type {ParticipantPostType, ParticipantType} from "../types/participantType.ts";
-import {Button, FormControl, MenuItem, Select, TextField} from "@mui/material";
+import {Button, FormControl, MenuItem, Select, type SelectChangeEvent, TextField} from "@mui/material";
 import useSnackBar from "../hooks/useSnackBar.ts";
 import useDisciplines from "../hooks/useDisciplines.tsx";
-import Box from "@mui/material/Box";
 
 type Entity1FormProps = {
     closeModal: () => void;
@@ -19,7 +18,7 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
         name: "",
         gender: "",
         age: 0,
-        club: "",
+        clubName: "",
         discipline: []
     });
     const {showSnackBarSuccess, showSnackBarError} = useSnackBar();
@@ -33,11 +32,22 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
         }));
     }
 
-    const handleSelectChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    const handleSelectChange = (e: SelectChangeEvent<string>) => {
         e.preventDefault();
         setForm((prevForm) => ({
             ...prevForm,
             [e.target.name as string]: e.target.value,
+        }));
+    }
+
+    const handleSelectChangeDisciplin = (e: SelectChangeEvent<string[]>) => {
+        e.preventDefault();
+        const selectedDisciplines = disciplines.filter(discipline =>
+            e.target.value.includes(discipline.id.toString())
+        );
+        setForm((prevForm) => ({
+            ...prevForm,
+            discipline: selectedDisciplines,
         }));
     }
 
@@ -73,8 +83,11 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
             name: form.name,
             gender: form.gender,
             age: form.age,
-            club: form.clubName,
-            discipline: form.discipline
+            clubName: form.clubName,
+            discipline: Array.isArray(form.discipline) ? form.discipline.map(disc => ({
+                ...disc,
+                resultType: 'Time' // This is a placeholder. Update with the actual value.
+            })) : []
         };
         console.log(participantDetails)
         if (participantDetails.id) {
@@ -134,9 +147,15 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
                     />
                 </FormControl>
                 <FormControl>
-                    <Select label={"Disciplin"} name={"discipline"} value={form.discipline} onChange={handleSelectChange}>
+                    <Select
+                        label={"Disciplin"}
+                        name={"discipline"}
+                        multiple
+                        value={form.discipline.map(disc => disc.id.toString())}
+                        onChange={handleSelectChangeDisciplin}
+                    >
                         {disciplines.map(discipline => (
-                            <MenuItem key={discipline.id} value={discipline.name}>{discipline.name}</MenuItem>
+                            <MenuItem key={discipline.id} value={discipline.id.toString()}>{discipline.name}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
