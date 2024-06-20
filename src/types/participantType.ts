@@ -9,14 +9,18 @@ type ParticipantType = {
     discipline: DisciplineType[];
 }
 
+type DisciplinePostType = {
+    id: number;
+    name: string;
+    resultType: string;
+}
+
 type ParticipantPostType = {
     name: string;
     gender: string;
     age: number;
     clubName: string;
-    discipline: [{
-        name: string;
-    }];
+    discipline: DisciplinePostType[];
 }
 
 

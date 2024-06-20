@@ -1,18 +1,18 @@
 import useParticipants from "../hooks/useParticipants.ts";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
-import {DataGrid, type GridRenderCellParams} from "@mui/x-data-grid";
-import Button from "@mui/material/Button";
-import {useState} from "react";
-import type {ParticipantPostType, ParticipantType} from "../types/participantType.ts";
-import CustomModal from "../components/CustomModal.tsx";
-import ParticipantForm from "../components/ParticipantForm.tsx";
+import React, {useState} from "react";
+import type { ParticipantType} from "../types/participantType.ts";
 import {Paper} from "@mui/material";
 import useSnackBar from "../hooks/useSnackBar.ts";
+import Button from "@mui/material/Button";
+import {DataGrid, type GridRenderCellParams} from "@mui/x-data-grid";
+import CustomModal from "../components/CustomModal.tsx";
+import ParticipantForm from "../components/ParticipantForm.tsx";
 
 function Participants() {
     const {participants, createParticipant, putParticipant, deleteParticipant, isLoading} = useParticipants();
     const [isOpen, setIsOpen] = useState(false);
-    const [editParticipant, setEditParticipant] = useState<ParticipantType | ParticipantPostType | null>(null);
+    const [editParticipant, setEditParticipant] = useState<ParticipantType | null>(null);
     const {showSnackBarSuccess, showSnackBarError} = useSnackBar();
 
 
@@ -29,12 +29,7 @@ function Participants() {
                 name: "",
                 gender: "",
                 age: 0,
-                club: {
-                    id: 0,
-                    name: "",
-                    ranking: 0,
-                    area: ""
-                },
+                club: "",
                 discipline: []
             });
         }
@@ -60,9 +55,7 @@ function Participants() {
         { field: 'name', headerName: 'Navn', width: 200 },
         { field: 'age', headerName: 'Alder', width: 130 },
         { field: 'gender', headerName: 'Køn', width: 130 },
-        { field: 'club', headerName: 'Klub', width: 130, renderCell: (params: GridRenderCellParams) => (
-                <span>{params.row.club.name}</span>
-            )},
+        { field: 'clubName', headerName: 'Klub', width: 200},
         { field: 'discipline', headerName: 'Disciplin', width: 400, renderCell: (params: GridRenderCellParams) => (
                 <span>{params.row.discipline.map(discipline => discipline.name).join(", ")}</span>
             )},

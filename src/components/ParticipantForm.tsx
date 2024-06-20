@@ -3,6 +3,7 @@ import type {ParticipantPostType, ParticipantType} from "../types/participantTyp
 import {Button, FormControl, MenuItem, Select, TextField} from "@mui/material";
 import useSnackBar from "../hooks/useSnackBar.ts";
 import useDisciplines from "../hooks/useDisciplines.tsx";
+import Box from "@mui/material/Box";
 
 type Entity1FormProps = {
     closeModal: () => void;
@@ -18,12 +19,7 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
         name: "",
         gender: "",
         age: 0,
-        club: {
-            id: 0,
-            name: "",
-            ranking: 0,
-            area: ""
-        },
+        club: "",
         discipline: []
     });
     const {showSnackBarSuccess, showSnackBarError} = useSnackBar();
@@ -77,15 +73,14 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
             name: form.name,
             gender: form.gender,
             age: form.age,
-            club: form.club,
+            club: form.clubName,
             discipline: form.discipline
         };
-
         console.log(participantDetails)
-        if (participantDetails.id === 0) {
-            await handleCreate(participantDetails);
-        } else {
+        if (participantDetails.id) {
             await handleUpdate(participantDetails);
+        } else {
+            await handleCreate(participantDetails);
         }
     }
 
@@ -96,7 +91,7 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
                 name: editParticipant.name,
                 gender: editParticipant.gender,
                 age: editParticipant.age,
-                club: editParticipant.club,
+                clubName: editParticipant.clubName,
                 discipline: editParticipant.discipline
             });
         }
@@ -138,15 +133,14 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
                                onChange={event => handleInputChange(event)}
                     />
                 </FormControl>
-
                 <FormControl>
-                    <Select label={"discipliner"} name={"discipline"} value={form.discipline}
-                            onChange={handleSelectChange}>
-                        {Array.isArray(disciplines) && disciplines.map((item) => (
-                            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                    <Select label={"Disciplin"} name={"discipline"} value={form.discipline} onChange={handleSelectChange}>
+                        {disciplines.map(discipline => (
+                            <MenuItem key={discipline.id} value={discipline.name}>{discipline.name}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
+
 
                 <Button type="submit" variant="contained">Submit</Button>
             </form>
