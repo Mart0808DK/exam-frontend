@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import Api from "../utils/Api.tsx";
-import type {ResultType} from "../types/resultType.ts";
+import type {ResultPostType, ResultType} from "../types/resultType.ts";
 
 function UseResults() {
     const [results, setResults] = useState<ResultType[]>([]);
@@ -21,7 +21,7 @@ function UseResults() {
     const createResult = async (newResult: ResultPostType) => {
         setIsLoading(true);
         try {
-            const data: Results = await Api.post("results", newResult);
+            const data = await Api.post("results", newResult);
             setResults(prevResults => [...prevResults, data]);
         } catch (error) {
             console.error(error);
@@ -30,10 +30,10 @@ function UseResults() {
         }
     }
 
-    const updateResult = async (body: Results) => {
+    const updateResult = async (body: ResultType) => {
         setIsLoading(true);
         try {
-            const data: Results = await Api.put("results", body.id, body);
+            const data: ResultType = await Api.put("results", body.id, body);
             setResults(prevResults => prevResults.map(result => result.id === data.id ? data : result));
         } catch (error) {
             console.error(error);

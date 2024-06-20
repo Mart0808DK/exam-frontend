@@ -9,4 +9,11 @@ type ResultType = {
     participant: ParticipantType;
 }
 
-export type {ResultType, ResultParticipantType, ResultTypeEnum};
+type ResultPostType = {
+    resultType: string;
+    resultValue: number;
+    discipline: { name: string};
+    participant: { name: string};
+}
+
+export type {ResultType, ResultPostType };

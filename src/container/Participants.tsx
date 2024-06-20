@@ -1,6 +1,6 @@
 import useParticipants from "../hooks/useParticipants.ts";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
-import React, {useState} from "react";
+import {useState} from "react";
 import type { ParticipantType} from "../types/participantType.ts";
 import {Paper} from "@mui/material";
 import useSnackBar from "../hooks/useSnackBar.ts";
@@ -29,7 +29,7 @@ function Participants() {
                 name: "",
                 gender: "",
                 age: 0,
-                club: "",
+                clubName: "",
                 discipline: []
             });
         }
@@ -57,7 +57,7 @@ function Participants() {
         { field: 'gender', headerName: 'Køn', width: 130 },
         { field: 'clubName', headerName: 'Klub', width: 200},
         { field: 'discipline', headerName: 'Disciplin', width: 400, renderCell: (params: GridRenderCellParams) => (
-                <span>{params.row.discipline.map(discipline => discipline.name).join(", ")}</span>
+                <span>{params.row.discipline.map((discipline: { name: never; }) => discipline.name).join(", ")}</span>
             )},
         { field: 'rediger', headerName: 'Rediger', width: 150, renderCell: (params: GridRenderCellParams) => (
                 <Button variant={"contained"} onClick={() => openModal(params.row)}>Rediger</Button>

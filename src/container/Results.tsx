@@ -3,23 +3,72 @@ import LoadingSpinner from "../components/LoadingSpinner.tsx";
 import {DataGrid, type GridRenderCellParams} from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import {Paper} from "@mui/material";
-
+import useSnackBar from "../hooks/useSnackBar.ts";
+import {useState} from "react";
+import type {ResultType} from "../types/resultType.ts";
+import CustomModal from "../components/CustomModal.tsx";
+import ResultsForm from "../components/ResultsForm.tsx";
 
 
 function Results() {
     const {results, createResult, updateResult, deleteResult, isLoading} = UseResults();
+    const {showSnackBarSuccess, showSnackBarError} = useSnackBar();
+    const [isOpen, setIsOpen] = useState(false);
+    const [editResult, setEditResult] = useState<ResultType | null>(null);
+
+
     if (isLoading) {
-        return <LoadingSpinner />;
+        return <LoadingSpinner/>;
+    }
+
+    const openModal = (result?: ResultType) => {
+        if (result) {
+            setEditResult(result);
+        } else {
+            setEditResult({
+                id: 0,
+                resultType: "",
+                resultValue: 0,
+                discipline: {
+                    id: 0,
+                    name: "",
+                    result_type: "",
+                },
+                participant: {
+                    id: 0,
+                    name: "",
+                    gender: "",
+                    age: 0,
+                    clubName: "",
+                    discipline: []
+                }
+            });
+        }
+        setIsOpen(true);
+    }
+
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteResult(id);
+            showSnackBarSuccess("Resultat er slettet");
+        } catch (e: unknown) {
+            showSnackBarError("Der skete en fejl under sletning af resultat")
+            console.log(e);
+        }
     }
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        {field: 'resultType', headerName: 'Type', width: 200},
-        {field: 'resultValue', headerName: 'Resultat', width: 200},
-        {field: 'participant', headerName: 'Deltager', width: 200, renderCell: (params) => (
+        {field: 'id', headerName: 'ID', width: 70},
+        {field: 'participant', headerName: 'Deltager', width: 200, renderCell: (params: GridRenderCellParams) => (
                 <span>{params.value?.name}</span>
             )},
-        {field: 'discipline', headerName: 'Disciplin', width: 600, renderCell: (params) => {
+        {field: 'resultType', headerName: 'Type', width: 200},
+        {field: 'resultValue', headerName: 'Resultat', width: 200},
+        {field: 'discipline', headerName: 'Disciplin', width: 600, renderCell: (params: GridRenderCellParams) => {
                 return <span>{params.value?.name}</span>
             }},
         { field: 'rediger', headerName: 'Rediger', width: 150, renderCell: (params: GridRenderCellParams) => (
@@ -39,9 +88,12 @@ function Results() {
                }}>
             <h1>Resultater for begivenheder </h1>
             <div>
-                <DataGrid columns={columns} rows={results} pageSize={5}/>
+                <DataGrid columns={columns} rows={results}/>
             </div>
-            <Button variant={"contained"}>Opret</Button>
+            <Button variant={"contained"} onClick={() => openModal()}>Opret</Button>
+            <CustomModal isOpen={isOpen} onRequestClose={closeModal}>
+                <ResultsForm onClose={closeModal} createResult={createResult} updateResult={updateResult} editResult={editResult} results={results}></ResultsForm>
+            </CustomModal>
         </Paper>
     );
 }
