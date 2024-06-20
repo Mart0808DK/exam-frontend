@@ -20,11 +20,7 @@ function Results() {
                 <span>{params.value?.name}</span>
             )},
         {field: 'discipline', headerName: 'Disciplin', width: 600, renderCell: (params) => {
-                if (Array.isArray(params.value)) {
-                    return params.value.map((discipline: any) => discipline.name).join(", ");
-                } else {
-                    return '';
-                }
+                return <span>{params.value?.name}</span>
             }},
         { field: 'rediger', headerName: 'Rediger', width: 150, renderCell: (params: GridRenderCellParams) => (
                 <Button variant={"contained"} onClick={() => openModal(params.row)}>Rediger</Button>
@@ -35,10 +31,17 @@ function Results() {
         }
     ]
     return (
-        <Paper>
+        <Paper elevation={3}
+               sx={{
+                   padding: 2,
+                   margin: 2,
+                   borderRadius: 2,
+               }}>
+            <h1>Resultater for begivenheder </h1>
             <div>
                 <DataGrid columns={columns} rows={results} pageSize={5}/>
             </div>
+            <Button variant={"contained"}>Opret</Button>
         </Paper>
     );
 }
