@@ -63,10 +63,18 @@ export default function Navbar() {
                             <HomeIcon />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="entity">
+                    <Tooltip title="deltager">
                         <IconButton
                             component={Link}
-                            to="/entity"
+                            to="/deltager"
+                        >
+                            <PortraitIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="resultater">
+                        <IconButton
+                            component={Link}
+                            to="/resultater"
                         >
                             <PortraitIcon/>
                         </IconButton>

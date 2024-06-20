@@ -4,6 +4,7 @@ import FallBack from "./container/FallBack.tsx";
 import Participants from "./container/Participants.tsx";
 import Navbar from "./components/Navbar.tsx";
 import {SnackbarProvider} from "notistack";
+import Results from "./container/Results.tsx";
 
 function App() {
     return (
@@ -18,7 +19,8 @@ function App() {
                 <Navbar/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/entity" element={<Participants/>}/>
+                    <Route path="/deltager" element={<Participants/>}/>
+                    <Route path="/resultater" element={<Results/>}/>
                     <Route path="/*" element={<FallBack/>}/>
                 </Routes>
             </SnackbarProvider>
