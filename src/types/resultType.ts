@@ -1,19 +1,12 @@
 import type {DisciplineType} from "./disciplineType.ts";
-import type {ClubType} from "./clubType.ts";
-type ResultParticipantType = {
-    id: number;
-    name: string;
-    gender: string;
-    age: number;
-    club: ClubType;
-}
+import type {ParticipantType} from "./participantType.ts";
 
 type ResultType = {
     id: number;
     resultType: string;
     resultValue: number;
     discipline: DisciplineType;
-    participant: ResultParticipantType;
+    participant: ParticipantType;
 }
 
 export type {ResultType, ResultParticipantType, ResultTypeEnum};

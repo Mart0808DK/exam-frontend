@@ -1,4 +1,3 @@
-import type {ClubType} from "./clubType.ts";
 import type {DisciplineType} from "./disciplineType.ts";
 
 type ParticipantType = {
@@ -6,7 +5,7 @@ type ParticipantType = {
     name: string;
     gender: string;
     age: number;
-    club: ClubType;
+    clubName: string;
     discipline: DisciplineType[];
 }
 
@@ -14,9 +13,7 @@ type ParticipantPostType = {
     name: string;
     gender: string;
     age: number;
-    club: {
-        name: string;
-    };
+    clubName: string;
     discipline: [{
         name: string;
     }];
