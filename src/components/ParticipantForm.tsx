@@ -1,6 +1,16 @@
 import React, {useEffect, useState} from "react";
 import type {ParticipantPostType, ParticipantType} from "../types/participantType.ts";
-import {Button, FormControl, MenuItem, Select, type SelectChangeEvent, TextField} from "@mui/material";
+import {
+    Button,
+    FormControl,
+    MenuItem,
+    Select,
+    type SelectChangeEvent,
+    TextField,
+    Grid,
+    Box,
+    InputLabel
+} from "@mui/material";
 import useSnackBar from "../hooks/useSnackBar.ts";
 import useDisciplines from "../hooks/useDisciplines.ts";
 
@@ -112,55 +122,86 @@ function ParticipantForm({closeModal, createParticipant, putParticipant, editPar
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <FormControl>
-                    <TextField sx={{marginBottom: "1rem"}}
-                               label="Navn"
-                               name={"name"}
-                               value={form.name}
-                               onChange={event => handleInputChange(event)}
-                    />
-                </FormControl>
-
-                <FormControl>
-                    <Select label={"køn"} name={"gender"} value={form.gender} onChange={handleSelectChange}>
-                        <MenuItem value={"Male"}>Male</MenuItem>
-                        <MenuItem value={"Female"}>Female</MenuItem>
-                    </Select>
-                </FormControl>
-
-                <FormControl>
-                    <TextField sx={{marginBottom: "1rem"}}
-                               label="Alder"
-                               name={"age"}
-                               value={form.age}
-                               onChange={event => handleInputChange(event)}
-                    />
-                </FormControl>
-
-                <FormControl>
-                    <TextField sx={{marginBottom: "1rem"}}
-                               label="KlubNavn"
-                               name={"clubName"}
-                               value={form.clubName}
-                               onChange={event => handleInputChange(event)}
-                    />
-                </FormControl>
-                <FormControl>
-                    <Select
-                        label={"Disciplin"}
-                        name={"discipline"}
-                        multiple
-                        value={form.discipline.map(disc => disc.id.toString())}
-                        onChange={handleSelectChangeDisciplin}
-                    >
-                        {disciplines.map(discipline => (
-                            <MenuItem key={discipline.id} value={discipline.id.toString()}>{discipline.name}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-
-                <Button type="submit" variant="contained">Submit</Button>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+                            <FormControl fullWidth={true}>
+                                <TextField sx={{marginBottom: "1rem"}}
+                                           label="Navn"
+                                           name={"name"}
+                                           value={form.name}
+                                           onChange={event => handleInputChange(event)}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+                                <InputLabel>Vælg Køn</InputLabel>
+                            <FormControl fullWidth={true}>
+                                <Select label={"køn"} name={"gender"} value={form.gender} onChange={handleSelectChange}>
+                                    <MenuItem value={"Male"}>Male</MenuItem>
+                                    <MenuItem value={"Female"}>Female</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+                            <FormControl fullWidth={true}>
+                                <TextField sx={{marginBottom: "1rem"}}
+                                           label="Alder"
+                                           name={"age"}
+                                           value={form.age}
+                                           onChange={event => handleInputChange(event)}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+                            <FormControl fullWidth={true}>
+                                <TextField sx={{marginBottom: "1rem"}}
+                                           label="KlubNavn"
+                                           name={"clubName"}
+                                           value={form.clubName}
+                                           onChange={event => handleInputChange(event)}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+                            <InputLabel>Vælg Disciplin</InputLabel>
+                            <FormControl fullWidth={true}>
+                                <Select
+                                    label={"Disciplin"}
+                                    name={"discipline"}
+                                    multiple
+                                    value={form.discipline.map(disc => disc.id.toString())}
+                                    onChange={handleSelectChangeDisciplin}
+                                >
+                                    {disciplines.map(discipline => (
+                                        <MenuItem key={discipline.id}
+                                                  value={discipline.id.toString()}>{discipline.name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid container item xs={12} justifyContent="space-between">
+                        <Grid item xs={6}>
+                            <Box display="flex" justifyContent="flex-start">
+                                <Button variant={"contained"} onClick={closeModal}>Cancel</Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Box display="flex" justifyContent="flex-end">
+                                <Button type={"submit"} variant={"contained"}>Submit</Button>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </form>
         </div>
     )

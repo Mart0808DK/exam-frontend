@@ -16,7 +16,7 @@ function App() {
                 warning: '⚠️',
                 info: 'ℹ️',
 
-            }} >
+            }} autoHideDuration={20} >
                 <Navbar/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
